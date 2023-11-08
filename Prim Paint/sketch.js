@@ -45,7 +45,7 @@ function mousePressed(){
 
     else if (currentShape === 2){
       if (currentShape === 2){
-        triangle(mouseX,mouseY, 30);
+        triangle(mouseX,mouseY, 30, 20, 30, 20);
 
       }
     }
