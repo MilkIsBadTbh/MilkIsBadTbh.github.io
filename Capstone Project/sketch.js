@@ -6,22 +6,22 @@
 // - Final capstone project replicating the chrome dino game
 
 //  ---------------------------------------------------------
-
-function pp(){
-  
-}
+//let  i = ["assets/standing dino.png"];
 
 function preload(){
-  
+  push.loadImage("assets/standing dino.png");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  imageMode(CENTER);
 }
 
 function draw() {
   background(220);
   drawGround();
+  drawDino();
+  //dinoStand(width/2,height/2);
 }
 
 function drawGround(){
