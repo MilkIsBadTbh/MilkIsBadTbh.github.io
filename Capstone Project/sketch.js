@@ -56,22 +56,23 @@ class Dino{
   }
 
   move(){
-    if(this.position.y < height*0.9){
-      this.gravity = 0;
-      
+    if(this.position.y+dinoImages[0].height/2 > height*0.9){
+      this.gravity.y = 0;
+      this.position.y = height*0.9-dinoImages[0].height/2;
       print("line");
+    }
+    else{
+      this.gravity.y = 0.5;
     }
 
     if(keyIsPressed){
-      if(key === UP_ARROW){
+      if(keyCode === UP_ARROW){
         print("up");
-        this.velocity.y = -2;
+        this.velocity.y = -10;
       }
       
     }
-    else{
-      this.gravity = 0,0.5;
-    }
+    
     
     this.velocity.add(this.gravity);
     //Then apply our velocity to position
