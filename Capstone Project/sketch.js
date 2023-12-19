@@ -7,14 +7,20 @@
 
 //  ---------------------------------------------------------
 let dinoImages = [];
+let cactiImages = [];
+let currentImage = 0;
 
 let ySpeed;
 let gravity;
 let dino;
+let cactus1;
 
 
 function preload(){
   dinoImages.push(loadImage("assets/standing dino.png"));
+  dinoImages.push(loadImage("assets/left foot up dino.png"));
+  dinoImages.push(loadImage("assets/right foot up dino.png"));
+  cactiImages.push(loadImage("assets/cactus1.png"));
 }
 
 function setup() {
@@ -36,16 +42,6 @@ function drawGround(){
   rect(0,height,width,height*0.9);
 }
 
-function keyPressed(){}
-//   if(keyCode === UP_ARROW){
-//     dino.velocity.y = -5;
-//     //dinoY /=1.2;
-//   }
-//   else{
-//     dino.velocity.y = 5;
-//     //dinoY = height/1.15;
-//   }
-// }
 
 class Dino{
   //constrcutor and class properties
@@ -53,35 +49,42 @@ class Dino{
     this.position = createVector(x,y);  this.s = 20;
     this.velocity = createVector(0, 0);
     this.gravity = createVector(0,0.5);
+    this.jumping = false;
   }
 
-  move(){
-    if(this.position.y+dinoImages[0].height/2 > height*0.9){
-      this.gravity.y = 0;
-      this.position.y = height*0.9-dinoImages[0].height/2;
-      print("line");
-    }
-    else{
-      this.gravity.y = 0.5;
-    }
 
-    if(keyIsPressed){
-      if(keyCode === UP_ARROW){
-        print("up");
-        this.velocity.y = -10;
-      }
-      
-    }
-    
-    
+  move(){
     this.velocity.add(this.gravity);
     //Then apply our velocity to position
     this.position.add(this.velocity);
     //↑ is a MUTATOR method
-    
+    if(this.position.y+dinoImages[0].height/2 > height*0.9){
+      // this.gravity.y = 0;
+      this.position.y = height*0.9-dinoImages[0].height/2;
+      this.jumping = false;
+      
+    }
+
+    if(keyIsPressed){
+      if(keyCode === UP_ARROW && this.jumping === false){
+        print("up");
+        this.velocity.y = -13;
+        this.jumping = true;
+        currentImage = 2;
+      }
+      //else currentImage = 0;
+      
+    }
   }
 
+// class Cacti{
+//   constructor(x,y){
+
+//   }
+// }
+
   display(){
-    image(dinoImages[0],this.position.x,this.position.y);
+    image(dinoImages[currentImage],this.position.x,this.position.y); 
+    print(this.position.y);
   }
 }
