@@ -58,9 +58,9 @@ class Dino{
     //Then apply our velocity to position
     this.position.add(this.velocity);
     //↑ is a MUTATOR method
-    if(this.position.y+dinoImages[0].height/2 > height*0.9){
+    if(this.position.y+dinoImages[0].height/2 > height*0.92){
       // this.gravity.y = 0;
-      this.position.y = height*0.9-dinoImages[0].height/2;
+      this.position.y = height*0.92-dinoImages[0].height/2;
       this.jumping = false;
       
     }
@@ -70,7 +70,6 @@ class Dino{
         print("up");
         this.velocity.y = -13;
         this.jumping = true;
-        currentImage = 2;
       }
       //else currentImage = 0;
       
@@ -84,7 +83,24 @@ class Dino{
 // }
 
   display(){
-    image(dinoImages[currentImage],this.position.x,this.position.y); 
+    print(currentImage);
+    if(this.jumping === true){
+      currentImage = 0;
+    }
+    else{ 
+      if(currentImage === 0){ currentImage = 1;}
+
+      if(frameCount % 10 === 0){
+        if(currentImage === 1){
+          currentImage = 2;
+        }
+        else{
+          currentImage = 1;
+        }
+      }
+
+    }
+        image(dinoImages[currentImage],this.position.x,this.position.y); 
     print(this.position.y);
   }
 }
