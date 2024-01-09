@@ -10,9 +10,10 @@
 let dinoImages = [];
 let cactiImages = [];
 let currentImage = 0;
+let cactiSpeed = 8;
 
 let ySpeed;
-let gravity;
+let gravity; 
 let dino;
 let cactus1;
 
@@ -28,7 +29,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   imageMode(CENTER);
   dino = new Dino(width * 0.15, height / 1.15);
-  cactus1 = new Cacti(width*0.5, height/1.15);
+  cactus1 = new Cacti(width, height/1.135);
 }
 
 function draw() {
@@ -37,7 +38,8 @@ function draw() {
   dino.move();
   dino.display();
   cactus1.display();
-
+  cactus1.move();
+  collision();
 }
 
 function drawGround() {
@@ -97,7 +99,7 @@ class Dino {
 
     }
     image(dinoImages[currentImage], this.position.x, this.position.y);
-    print(this.position.y);
+    //print(this.position.y);
   }
 }
 class Cacti {
@@ -106,5 +108,17 @@ class Cacti {
   }
   display(){
     image(cactiImages[0],this.position.x, this.position.y);
+  }
+  move(){
+    this.position.x -= cactiSpeed;
+    if (this.position.x < 30){
+      this.position.x = width;
+    }
+  }
+}
+
+function collision(){
+  if(dist(dino.position.x,dino.position.y,cactus1.position.x,cactus1.position.y) < 100){
+    print("collide!");
   }
 }
