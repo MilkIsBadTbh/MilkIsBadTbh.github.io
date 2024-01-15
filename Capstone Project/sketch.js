@@ -9,14 +9,19 @@
 
 let dinoImages = [];
 let cactiImages = [];
+let gameLogos = [];
+let cloudImage = [];
 let currentImage = 0;
 let cactiSpeed = 8;
+let cloudSpeed = 8;
 let stayinAlive = true;
 
 let ySpeed;
 let gravity;
 let dino;
 let cactus1;
+let cloud1;
+let gameOver;
 
 
 function preload() {
@@ -24,7 +29,11 @@ function preload() {
   dinoImages.push(loadImage("assets/left foot up dino.png"));
   dinoImages.push(loadImage("assets/right foot up dino.png"));
   dinoImages.push(loadImage("assets/dead dino.png"));
+  gameLogos.push(loadImage("assets/Game over3.png"));
+  cloudImage.push(loadImage("assets/cloud3.png"));
   cactiImages.push(loadImage("assets/cactus1.png"));
+
+
 }
 
 function setup() {
@@ -32,6 +41,7 @@ function setup() {
   imageMode(CENTER);
   dino = new Dino(width * 0.15, height / 1.15);
   cactus1 = new Cacti(width, height / 1.135);
+  cloud1 = new Cloud(width, height/2);
 }
 
 function draw() {
@@ -40,14 +50,16 @@ function draw() {
 
   dino.display();
   cactus1.display();
+  cloud1.display();
 
   collision();
   if (stayinAlive === true) {
     dino.move();
     cactus1.move();
+    cloud1.move();
   }
   else {
-
+    image(gameLogos[0],width/2,height/2);
   }
 }
 
@@ -126,15 +138,31 @@ class Cacti {
   move() {
     this.position.x -= cactiSpeed;
     if (this.position.x < 30) {
-      this.position.x = width;
+      this.position.x = random(width,width*1.5);
     }
   }
 }
 
 function collision() {
   if (dist(dino.position.x, dino.position.y, cactus1.position.x, cactus1.position.y) < 100) {
-    print("collide!");
+    //print("collide!");
     currentImage = 3;
     stayinAlive = false;
+  }
+}
+
+class Cloud {
+  constructor(x, y) {
+    this.position = createVector(x, y); this.s = 20;
+  }
+  display() {
+    image(cloudImage[0], this.position.x, this.position.y,200,200);
+    circle(this.position.x,this.position.y,50);
+  }
+  move() {
+    this.position.x -= cloudSpeed;
+    if (this.position.x < 30) {
+      this.position.x = random(width,width*1.5);
+    }
   }
 }
