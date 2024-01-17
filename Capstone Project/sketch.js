@@ -13,14 +13,14 @@ let gameLogos = [];
 let cloudImage = [];
 let currentImage = 0;
 let cactiSpeed = 8;
-let cloudSpeed = 8;
+let cloudSpeed = 2;
 let stayinAlive = true;
 
 let ySpeed;
 let gravity;
 let dino;
 let cactus1;
-let cloud1;
+let cloud3;
 let gameOver;
 
 
@@ -41,7 +41,7 @@ function setup() {
   imageMode(CENTER);
   dino = new Dino(width * 0.15, height / 1.15);
   cactus1 = new Cacti(width, height / 1.135);
-  cloud1 = new Cloud(width, height/2);
+  cloud3 = new Cloud(width, height/2);
 }
 
 function draw() {
@@ -50,13 +50,13 @@ function draw() {
 
   dino.display();
   cactus1.display();
-  cloud1.display();
+  cloud3.display();
 
   collision();
   if (stayinAlive === true) {
     dino.move();
     cactus1.move();
-    cloud1.move();
+    cloud3.move();
   }
   else {
     image(gameLogos[0],width/2,height/2);
@@ -66,6 +66,7 @@ function draw() {
 function drawGround() {
   rectMode(CORNERS);
   rect(0, height, width, height * 0.9);
+  //below is the bulk of the dino jump using velocity and gravity 
 }
 
 
@@ -90,14 +91,12 @@ class Dino {
       this.jumping = false;
 
     }
-
     if (keyIsPressed) {
       if (keyCode === UP_ARROW && this.jumping === false) {
         print("up");
         this.velocity.y = -13;
         this.jumping = true;
       }
-      //else currentImage = 0;
 
     }
   }
@@ -125,7 +124,6 @@ class Dino {
     }
 
     image(dinoImages[currentImage], this.position.x, this.position.y);
-    //print(this.position.y);
   }
 }
 class Cacti {
@@ -143,26 +141,25 @@ class Cacti {
   }
 }
 
-function collision() {
+function collision() { 
   if (dist(dino.position.x, dino.position.y, cactus1.position.x, cactus1.position.y) < 100) {
-    //print("collide!");
-    currentImage = 3;
+    currentImage = 3; //show's dead dino when collision detected
     stayinAlive = false;
   }
 }
 
 class Cloud {
   constructor(x, y) {
-    this.position = createVector(x, y); this.s = 20;
+    this.position = createVector(x, y); this.s = 5;
   }
   display() {
-    image(cloudImage[0], this.position.x, this.position.y,200,200);
-    circle(this.position.x,this.position.y,50);
+    image(cloudImage[0], this.position.x, this.position.y); //calling the cloud from its array
   }
   move() {
     this.position.x -= cloudSpeed;
     if (this.position.x < 30) {
       this.position.x = random(width,width*1.5);
+      this.position.y = random(height/1.5,height/2.5);
     }
   }
 }
